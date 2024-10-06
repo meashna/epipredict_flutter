@@ -1,4 +1,4 @@
-package com.example.pandamic_prediction
+package com.example.Epipredict
 
 import io.flutter.embedding.android.FlutterActivity
 

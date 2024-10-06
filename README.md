@@ -1,4 +1,4 @@
-# pandamic_prediction
+# Epipredict
 
 A new Flutter project.
 

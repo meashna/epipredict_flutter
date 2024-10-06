@@ -1,6 +1,6 @@
 {
-    "name": "pandamic_prediction",
-    "short_name": "pandamic_prediction",
+    "name": "Epipredict",
+    "short_name": "Epipredict",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
