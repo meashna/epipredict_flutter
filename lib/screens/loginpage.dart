@@ -15,14 +15,21 @@ class _LoginScreenState extends State<LoginScreen> {
   final AuthRepository _authRepository = AuthRepository();
   String? errorMessage;
   final _logger = Logger();
+  bool isLoading = false; // Loading state
 
   void _login() async {
+    setState(() {
+      isLoading = true;
+      errorMessage = null; // Clear any previous error message
+    });
+
     final username = _usernameController.text;
     final password = _passwordController.text;
 
     if (username.isEmpty || password.isEmpty) {
       setState(() {
         errorMessage = 'Please enter both username and password';
+        isLoading = false; // Stop loading
       });
       return;
     }
@@ -38,8 +45,12 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       setState(() {
         errorMessage = 'Invalid login credentials';
+        isLoading = false; // Stop loading on failure
       });
     }
+    setState(() {
+      isLoading = false; // Stop loading on success
+    });
   }
 
   @override
@@ -64,6 +75,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   fontWeight: FontWeight.bold,
                   color: Colors.teal,
                 ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20),
+              Text(
+                "Please enter the username and password given by authorities",
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 30),
@@ -103,20 +119,25 @@ class _LoginScreenState extends State<LoginScreen> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-              ElevatedButton(
-                onPressed: _login,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.teal, // Changed from 'primary'
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                ),
-                child: Text(
-                  'Login',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
+              isLoading
+                  ? Center(
+                      child:
+                          CircularProgressIndicator(), // Show loading indicator
+                    )
+                  : ElevatedButton(
+                      onPressed: _login,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.teal,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                      ),
+                      child: Text(
+                        'Login',
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    ),
             ],
           ),
         ),
