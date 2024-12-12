@@ -35,7 +35,7 @@ class AuthService {
     return null; // Return null if login fails
   }
 
-  // Register function using Dio
+  // Register function using Dio new
   Future<Map<String, dynamic>?> register(
       String username, String password) async {
     try {
