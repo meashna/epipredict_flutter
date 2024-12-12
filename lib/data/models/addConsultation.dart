@@ -5,7 +5,7 @@ class AddConsultation {
   List<String> symptoms;
   String diagnosis;
   String prescription;
-
+//comment
   AddConsultation({
     required this.patientId,
     required this.doctorId,
