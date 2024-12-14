@@ -1,3 +1,4 @@
+import 'package:Epipredict/screens/dashboardScreen.dart';
 import 'package:flutter/material.dart';
 import 'patient_details_screen.dart';
 import '../data/repositories/patientList_repository.dart';
@@ -51,6 +52,16 @@ class _PatientListScreenState extends State<PatientListScreen> {
         centerTitle: true,
         backgroundColor: Colors.teal,
         actions: [
+          IconButton(
+            icon: Icon(Icons.dashboard),
+            tooltip: 'Go to Dashboard',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => DashboardScreen()),
+              );
+            },
+          ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.0),
             child: ElevatedButton.icon(
