@@ -4,6 +4,7 @@ import 'patient_details_screen.dart';
 import '../data/repositories/patientList_repository.dart';
 import '../data/models/patientList_model.dart';
 import 'addPatient_screen.dart';
+import 'package:Epipredict/screens/loginpage.dart';
 
 class PatientListScreen extends StatefulWidget {
   final String userId;
@@ -44,6 +45,42 @@ class _PatientListScreenState extends State<PatientListScreen> {
     }
   }
 
+  // Navigation functions
+  void _navigateToHome() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) => PatientListScreen(userId: widget.userId)),
+    );
+  }
+
+  void _navigateToDashboard() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) => DashboardScreen(userId: widget.userId)),
+    );
+  }
+
+  void _navigateToAddPatient() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => AddPatientScreen(userId: widget.userId)),
+    );
+
+    if (result == true) {
+      await _fetchPatients(); // Refresh the patient list
+    }
+  }
+
+  void _exitApp() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,46 +88,6 @@ class _PatientListScreenState extends State<PatientListScreen> {
         title: Text('Patient List'),
         centerTitle: true,
         backgroundColor: Colors.teal,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.dashboard),
-            tooltip: 'Go to Dashboard',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => DashboardScreen()),
-              );
-            },
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
-            child: ElevatedButton.icon(
-              onPressed: () async {
-                final result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddPatientScreen(
-                      userId: widget.userId,
-                    ),
-                  ),
-                );
-
-                if (result == true) {
-                  await _fetchPatients(); // Refresh the list when a new patient is added
-                }
-              },
-              icon: Icon(Icons.add),
-              label: Text('New Patient'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal.shade700,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
@@ -148,6 +145,48 @@ class _PatientListScreenState extends State<PatientListScreen> {
                 );
               },
             ),
+
+      // Bottom Navigation Bar
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.teal,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white70,
+        type: BottomNavigationBarType.fixed,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              _navigateToHome();
+              break;
+            case 1:
+              _navigateToDashboard();
+              break;
+            case 2:
+              _navigateToAddPatient();
+              break;
+            case 3:
+              _exitApp();
+              break;
+          }
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard),
+            label: 'Dashboard',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: 'Add Patient',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.exit_to_app),
+            label: 'Exit',
+          ),
+        ],
+      ),
     );
   }
 }
