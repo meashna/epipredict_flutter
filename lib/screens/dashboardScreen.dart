@@ -1,14 +1,19 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'patient_list_screen.dart';
+import 'addPatient_screen.dart';
+import 'loginpage.dart';
 
 class DashboardScreen extends StatefulWidget {
-  DashboardScreen({super.key});
+  final String userId;
+  DashboardScreen({required this.userId});
 
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  int _currentIndex = 1; // Set the initial index to Dashboard (index 1)
   final List<Map<String, dynamic>> _hospitalData = [
     {
       'hospital': 'Amrita Institute of Medical Sciences and Research Centre',
@@ -17,7 +22,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       'flu': 100,
       'covid': 200,
       'dengue': 50,
-      'fever': 30, // Add fever cases here
+      'fever': 30,
       'active': 120,
       'recovered': 200,
       'deaths': 30,
@@ -31,7 +36,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       'flu': 50,
       'covid': 80,
       'dengue': 20,
-      'fever': 10, // Add fever cases here
+      'fever': 10,
       'active': 40,
       'recovered': 100,
       'deaths': 10,
@@ -45,7 +50,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       'flu': 70,
       'covid': 90,
       'dengue': 40,
-      'fever': 15, // Add fever cases here
+      'fever': 15,
       'active': 50,
       'recovered': 130,
       'deaths': 20,
@@ -59,7 +64,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       'flu': 30,
       'covid': 50,
       'dengue': 10,
-      'fever': 5, // Add fever cases here
+      'fever': 5,
       'active': 20,
       'recovered': 60,
       'deaths': 5,
@@ -236,6 +241,42 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
+  //navigation path
+  void _navigateToHome() {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                PatientListScreen(userId: widget.userId))); //home
+  }
+
+  void _navigateToDashboard() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) => DashboardScreen(userId: widget.userId)),
+    );
+  }
+
+  void _navigateToAddPatient() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => AddPatientScreen(userId: widget.userId)),
+    );
+
+    if (result == true) {
+      // Refresh the patient list (or any other state update logic you need)
+    }
+  }
+
+  void _exitApp() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -388,6 +429,54 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ],
           ),
         ),
+      ),
+      // Bottom Navigation Bar
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.teal,
+        selectedItemColor: _currentIndex == 1 ? Colors.white : Colors.white70,
+        unselectedItemColor: Colors.white70,
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _currentIndex, // Track the selected index
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index; // Update the current index on tap
+          });
+
+          // Navigate to the corresponding screen based on the selected index
+          switch (index) {
+            case 0:
+              _navigateToHome();
+              break;
+            case 1:
+              _navigateToDashboard();
+              break;
+            case 2:
+              _navigateToAddPatient();
+              break;
+            case 3:
+              _exitApp();
+              break;
+          }
+        },
+
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard),
+            label: 'Dashboard',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: 'Add Patient',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.exit_to_app),
+            label: 'Exit',
+          ),
+        ],
       ),
     );
   }
