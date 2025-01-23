@@ -1,4 +1,0 @@
-The repository directory is the bridge between the network layer (or other data sources) and the rest of the app. The repository is responsible for managing data—it retrieves data from the network layer and transforms it into usable models for the app.
-This layer may also handle business logic, such as caching data or deciding whether to fetch data from the network or a local database.
-The repository abstracts the data sources from the rest of the application, providing a consistent interface for accessing data.
-Example: The AuthRepository fetches raw data from the AuthService and transforms it into a User object, which can then be used by the app.

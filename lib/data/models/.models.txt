@@ -1,3 +1,0 @@
-This directory contains the data models or domain objects used throughout the app. Models are simple classes that represent the structure of the data you work with, such as User, Patient, or any other entity.
-They are responsible for defining the structure of your data and sometimes include methods to convert between JSON and objects (e.g., fromJson() and toJson()).
-Example: If you have a User model, it will define the fields like id, username, and token and how these fields can be converted from or to JSON.

@@ -19,6 +19,9 @@ dependencies:
   dio: ^5.0.9
   logger: ^1.1.0
   shared_preferences: ^2.1.0
+  intl: ^0.18.0
+
+  
 
 dev_dependencies:
   flutter_test:

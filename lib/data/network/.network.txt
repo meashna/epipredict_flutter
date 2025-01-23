@@ -1,4 +1,0 @@
-This directory is where the network (service) layer lives. It handles all communication with external APIs (e.g., login, registration, fetching data).
-The files in this directory are responsible for sending HTTP requests, receiving responses, and handling any network-specific errors or configurations.
-This layer simply fetches raw data from the internet—it doesn’t process or transform the data.
-Example: The AuthService class makes requests to the backend for login and registration, receiving raw responses from the API.
